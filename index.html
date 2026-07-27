@@ -253,12 +253,18 @@ footer{border-top:1px solid var(--border);padding:56px 24px 36px;position:relati
       <a href="#catalog" onclick="filterByName('site')"><i class="fas fa-globe"></i> Сайты</a>
       <a href="#reviews"><i class="fas fa-star"></i> Отзывы</a>
     </nav>
-    <div class="header-right">
-      <button class="cart-btn" id="cartBtnEl" onclick="openCart();ripple(event,this)">
-        <i class="fas fa-shopping-cart"></i> Корзина
-        <span class="cart-count" id="cartCount">0</span>
-      </button>
-    </div>
+<div class="header-right">
+  <button class="cart-btn" id="authBtn" onclick="openAuth()" style="background:var(--accent);color:#fff;border:none;padding:8px 18px;border-radius:var(--r-sm);font-size:13px;font-weight:700;cursor:pointer;font-family:var(--font);">
+    <i class="fas fa-user"></i> Войти
+  </button>
+  <button class="cart-btn" id="logoutBtn" onclick="logout()" style="display:none;background:rgba(239,68,68,0.1);color:#ef4444;border:1px solid rgba(239,68,68,0.3);padding:8px 18px;border-radius:var(--r-sm);font-size:13px;font-weight:700;cursor:pointer;font-family:var(--font);">
+    <i class="fas fa-sign-out-alt"></i> Выйти
+  </button>
+  <button class="cart-btn" id="cartBtnEl" onclick="openCart();ripple(event,this)">
+    <i class="fas fa-shopping-cart"></i> Корзина
+    <span class="cart-count" id="cartCount">0</span>
+  </button>
+</div>
   </div>
 </header>
 <section class="hero">
@@ -853,6 +859,42 @@ function userMsg(txt){const ch=document.getElementById('spChat');const m=documen
 function askQ(key){const d=QA[key];if(!d)return;document.getElementById('spQuestions').style.display='none';userMsg(d.q);if(d.link){setTimeout(()=>{botMsg('Конечно! Нажмите ссылку ниже 👇');setTimeout(()=>{const ch=document.getElementById('spChat');const a=document.createElement('a');a.href=d.link;a.target='_blank';a.rel='noopener';a.style='display:block;background:var(--accent);color:#fff;font-weight:700;font-size:13px;text-decoration:none;padding:10px 14px;border-radius:10px;text-align:center;margin:4px 0;pointer-events:all;-webkit-user-select:auto!important;user-select:auto!important';a.textContent=d.link.replace('https://t.me/','@');ch.appendChild(a);ch.scrollTop=ch.scrollHeight;showBack();},1200);},650);}else{setTimeout(()=>{botMsg(d.a);setTimeout(showBack,1200)},650);}}
 function showBack(){if(document.querySelector('.sp-back'))return;const b=document.createElement('button');b.className='sp-back';b.innerHTML='<i class="fas fa-arrow-left"></i> Вернуться к вопросам';b.onclick=()=>{b.remove();document.getElementById('spQuestions').style.display='flex'};document.getElementById('spPanel').appendChild(b);}
 function now(){return new Date().toLocaleTimeString('ru',{hour:'2-digit',minute:'2-digit'})}
+  // ─── АВТОРИЗАЦИЯ ──────────────────────────────────────
+function openAuth() {
+  const user = localStorage.getItem('radflix_user');
+  if (user) {
+    toast('👋 Вы уже вошли как ' + user, 'ok');
+    return;
+  }
+  document.getElementById('regModal').classList.add('open');
+}
+
+function logout() {
+  if (confirm('Выйти из аккаунта?')) {
+    localStorage.removeItem('radflix_user');
+    localStorage.removeItem('radflix_telegram');
+    toast('👋 Вы вышли', 'ok');
+    location.reload();
+  }
+}
+
+// ─── ОБНОВЛЕНИЕ UI ПРИ ЗАГРУЗКЕ ──────────────────────
+document.addEventListener('DOMContentLoaded', function() {
+  const user = localStorage.getItem('radflix_user');
+  const authBtn = document.getElementById('authBtn');
+  const logoutBtn = document.getElementById('logoutBtn');
+  
+  if (user && authBtn) {
+    authBtn.innerHTML = '<i class="fas fa-user-check"></i> ' + user;
+    authBtn.style.background = 'rgba(34,197,94,0.15)';
+    authBtn.style.color = '#22c55e';
+    authBtn.style.border = '1px solid rgba(34,197,94,0.3)';
+    authBtn.onclick = function() {
+      toast('👋 Вы вошли как ' + user, 'ok');
+    };
+    if (logoutBtn) logoutBtn.style.display = 'flex';
+  }
+});
 </script>
 </body>
 </html>
