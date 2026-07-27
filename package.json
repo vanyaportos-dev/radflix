@@ -1,0 +1,7 @@
+{
+  "name": "radflix",
+  "version": "1.0.0",
+  "dependencies": {
+    "@vercel/kv": "^0.1.0"
+  }
+}
