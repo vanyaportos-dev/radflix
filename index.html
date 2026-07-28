@@ -895,6 +895,16 @@ document.addEventListener('DOMContentLoaded', function() {
     if (logoutBtn) logoutBtn.style.display = 'flex';
   }
 });
+  // Принудительная регистрация через кнопку
+document.addEventListener('DOMContentLoaded', function() {
+  const btn = document.getElementById('regBtn');
+  if (btn) {
+    btn.addEventListener('click', function(e) {
+      e.preventDefault();
+      register();
+    });
+  }
+});
 </script>
 </body>
 </html>
