@@ -718,28 +718,56 @@ function openProduct(id){
   document.body.style.overflow='hidden';
 }
 function closeProd(){document.getElementById('prodModal').classList.remove('open');document.body.style.overflow='';}
-async function register(){
-  const nickname=document.getElementById('regNick').value.trim();
-  const telegram=document.getElementById('regTelegram').value.trim();
-  if(!nickname||!telegram){toast('⚠️ Заполните все поля','warn');return;}
-  try{
-    const res=await fetch('/api/auth',{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({nickname,telegram})
+async function register() {
+  const nickname = document.getElementById('regNick').value.trim();
+  const telegram = document.getElementById('regTelegram').value.trim();
+  
+  if (!nickname || !telegram) {
+    toast('⚠️ Заполните все поля', 'warn');
+    return;
+  }
+  
+  // Показываем загрузку
+  toast('⏳ Отправка...', 'warn');
+  
+  try {
+    const response = await fetch('/api/auth', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ nickname, telegram })
     });
-    const data=await res.json();
-    if(data.success){
-      localStorage.setItem('radflix_user',nickname);
-      localStorage.setItem('radflix_telegram',telegram);
-      toast('✅ Добро пожаловать, '+nickname+'!','ok');
+    
+    const data = await response.json();
+    console.log('Ответ:', data);
+    
+    if (data.success) {
+      localStorage.setItem('radflix_user', nickname);
+      localStorage.setItem('radflix_telegram', telegram);
+      toast('✅ Добро пожаловать, ' + nickname + '!', 'ok');
       document.getElementById('regModal').classList.remove('open');
-      setTimeout(()=>openChat(nickname),500);
-    }else{
-      toast('❌ '+(data.error||'Ошибка регистрации'),'err');
+      
+      // Обновляем кнопку входа
+      const authBtn = document.getElementById('authBtn');
+      if (authBtn) {
+        authBtn.innerHTML = '<i class="fas fa-user-check"></i> ' + nickname;
+        authBtn.style.background = 'rgba(34,197,94,0.15)';
+        authBtn.style.color = '#22c55e';
+        authBtn.style.border = '1px solid rgba(34,197,94,0.3)';
+        authBtn.onclick = function() {
+          toast('👋 Вы вошли как ' + nickname, 'ok');
+        };
+      }
+      document.getElementById('logoutBtn').style.display = 'flex';
+      
+      setTimeout(() => openChat(nickname), 500);
+    } else {
+      toast('❌ ' + (data.error || 'Ошибка регистрации'), 'err');
     }
-  }catch(err){
-    toast('❌ Ошибка соединения','err');
+  } catch (error) {
+    console.error('Ошибка:', error);
+    toast('❌ Ошибка соединения. Проверьте интернет', 'err');
   }
 }
 async function openChat(nickname){
@@ -893,16 +921,6 @@ document.addEventListener('DOMContentLoaded', function() {
       toast('👋 Вы вошли как ' + user, 'ok');
     };
     if (logoutBtn) logoutBtn.style.display = 'flex';
-  }
-});
-  // Принудительная регистрация через кнопку
-document.addEventListener('DOMContentLoaded', function() {
-  const btn = document.getElementById('regBtn');
-  if (btn) {
-    btn.addEventListener('click', function(e) {
-      e.preventDefault();
-      register();
-    });
   }
 });
 </script>
