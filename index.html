@@ -352,10 +352,10 @@ footer{border-top:1px solid var(--border);padding:56px 24px 36px;position:relati
   </div>
   <div class="product-body">
     <span class="product-category"><i class="fas fa-gamepad"></i> Проект</span>
-    <div class="product-name">BLACK RUSSIA 2026</div>
+    <div class="product-name">BLACK RUSSIA 2026 LITE</div>
     <div class="product-desc">Флагманский проект. Полный релиз 2026 года с обновлённым контентом.</div>
     <div class="product-footer">
-      <div><span class="product-price-old">222₽</span><span class="product-price">200₽</span></div>
+      <div><span class="product-price-old">200₽</span><span class="product-price">200₽</span></div>
       <button class="add-btn" onclick="event.stopPropagation();addCart(0,this);ripple(event,this)"><i class="fas fa-plus"></i></button>
     </div>
   </div>
@@ -654,7 +654,7 @@ document.addEventListener('keydown',e=>{
 (()=>{const limit=160;setInterval(()=>{const t=Date.now();(function(){debugger})();if(Date.now()-t>limit){document.body.innerHTML='<div style="display:flex;align-items:center;justify-content:center;height:100vh;background:#000;color:#dc2626;font-family:Inter,sans-serif;font-size:22px;font-weight:800;">🔒 Доступ ограничен</div>'}},1000);let was=false;setInterval(()=>{const wid=window.outerWidth-window.innerWidth>limit;const hid=window.outerHeight-window.innerHeight>limit;if((wid||hid)&&!was){was=true;window.location.href='about:blank'}if(!wid&&!hid)was=false},600);})();
 (()=>{const el=document.getElementById('wmInner');if(!el)return;let h='';for(let i=0;i<56;i++)h+='<span>RADFLIX&nbsp;</span>';el.innerHTML=h;})();
 const PRODS=[
-  {id:0,name:'BLACK RUSSIA 2026',price:200,cat:'project',img:'images/br22.png',e:'🎮',cat2:'Проект',desc:'Флагманский проект 2026'},
+  {id:0,name:'BLACK RUSSIA 2026 LITE',price:200,cat:'project',img:'images/br22.png',e:'🎮',cat2:'Проект',desc:'Флагманский проект 2026'},
   {id:1,name:'MOD BY RADFLIX',price:150,cat:'mod',img:'images/br22.png',e:'⚙️',cat2:'Мод',desc:'Эксклюзивная модификация'},
   {id:2,name:'ИСХОДНИКИ BY RADFLIX',price:100,cat:'source',img:'images/br22.png',e:'📦',cat2:'Исходники',desc:'Оригинальные исходные коды'},
   {id:3,name:'Заливка мода',price:50,cat:'service',img:'images/zv.png',e:'🔧',cat2:'Услуга',desc:'Установка мода на сервер'},
